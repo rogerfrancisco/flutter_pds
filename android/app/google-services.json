@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "618552107502",
+    "project_id": "pdscontrolcar",
+    "storage_bucket": "pdscontrolcar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618552107502:android:298b780fe6cc1ce46d2eff",
+        "android_client_info": {
+          "package_name": "com.example.flutter_pds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618552107502-prd95i4anj68lt8gamh19ho25raq7cat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9ZWlvF-bzTkIeBBL0NN0elCFbUyTGZ-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618552107502-prd95i4anj68lt8gamh19ho25raq7cat.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
