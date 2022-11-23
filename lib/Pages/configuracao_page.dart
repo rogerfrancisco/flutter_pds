@@ -1,17 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:untitled/Pages/cadastrocarro_page.dart';
+
 import 'package:untitled/Pages/carro_page.dart';
+import 'package:untitled/Pages/carroview_page.dart';
+
 import 'package:untitled/Pages/inicial_page.dart';
 import 'package:untitled/models/auth_error.dart';
 
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../models/user_carro_model.dart';
+import '../services/carros_service.dart';
+
 class ConfiguracaoPage extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  static var carroModel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,8 @@ class ConfiguracaoPage extends StatelessWidget {
         Container(
             alignment: Alignment.center,
             width: double.infinity,
-            height: 120,
+            height: MediaQuery.of(context).size.height * 0.15,
+            // ignore: prefer_const_constructors
             decoration: BoxDecoration(
               color: ThemeApp.cinza,
             ),
@@ -49,11 +58,11 @@ class ConfiguracaoPage extends StatelessWidget {
                   child: IconButton(
                       iconSize: 50,
                       onPressed: () {},
-                      icon: Icon(FontAwesomeIcons.check)),
+                      icon: const Icon(FontAwesomeIcons.check)),
                 ),
               ],
             )),
-        SizedBox(height: 20),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.09),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(14.0),
@@ -76,13 +85,15 @@ class ConfiguracaoPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.09,
+                  ),
                   Align(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -91,7 +102,7 @@ class ConfiguracaoPage extends StatelessWidget {
                                 builder: (BuildContext context) =>
                                     CarroPage()));
                       },
-                      child: Text('Trocar de carro'),
+                      child: const Text('Trocar de carro'),
                     ),
                   )),
                   Align(
@@ -99,12 +110,30 @@ class ConfiguracaoPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
+                        backgroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    CarroView()));
+                      },
+                      
+                      child: const Text('Vizualizar Carro'),
+                    ),
+                  )),
+                  Align(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
                       ),
                       onPressed: () {
                         signOut(context);
                       },
-                      child: Text('Sair'),
+                      child: const Text('sair'),
                     ),
                   )),
                 ],
@@ -119,6 +148,7 @@ class ConfiguracaoPage extends StatelessWidget {
   Future signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
+      // ignore: use_build_context_synchronously
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) => InicialPage()));
     } on FirebaseAuthException catch (e) {

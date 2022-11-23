@@ -10,6 +10,7 @@ class ServiceModel {
   String observacao;
   String servico;
   String trocaKm;
+  bool isCompleted;
 
   ServiceModel({
     required this.mecanico,
@@ -19,6 +20,7 @@ class ServiceModel {
     required this.observacao,
     required this.servico,
     required this.trocaKm,
+    required this.isCompleted,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class ServiceModel {
       observacao: json['observacao'],
       servico: json['servico'],
       trocaKm: json['trocaKm'],
+      isCompleted: json['isCompleted'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -41,6 +44,11 @@ class ServiceModel {
       'observacao': observacao,
       'servico': servico,
       'trocaKm': trocaKm,
+      'isCompleted': isCompleted,
     };
+  }
+
+  changecompleted(bool value) {
+    isCompleted = value;
   }
 }

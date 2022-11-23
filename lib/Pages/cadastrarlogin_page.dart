@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/Pages/carro_page.dart';
 import 'package:untitled/Pages/login_page.dart';
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,8 +35,8 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
             Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                height: 120,
-                decoration: BoxDecoration(
+                height: MediaQuery.of(context).size.height * 0.15,
+                decoration: const BoxDecoration(
                   color: ThemeApp.cinza,
                 ),
                 child: Row(
@@ -60,8 +61,10 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
                     )
                   ],
                 )),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: MediaQuery.of(context).size.height * 0.15,
               child: Text(
                 style: GoogleFonts.comfortaa(
                   fontSize: 36,
@@ -69,8 +72,6 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
                 ),
                 'Cadastre-se',
               ),
-              width: 250,
-              height: 80,
             ),
             SizedBox(height: 50),
             Padding(
@@ -80,7 +81,7 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
                   TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
                       border: OutlineInputBorder(),
                     ),
@@ -90,12 +91,12 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
                             ? 'Digitar um Email Valido'
                             : null,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: passwordController,
                     onChanged: (text) {},
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Senha',
                       border: OutlineInputBorder(),
                     ),
@@ -104,12 +105,12 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
                         ? 'Minimo 6 numeros'
                         : null,
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
+                        backgroundColor: Colors.black,
                       ),
                       onPressed: () {
                         signUp();
@@ -119,7 +120,7 @@ class _CadastroLoginPageState extends State<CadastroLoginPage> {
                                 builder: (BuildContext context) =>
                                     const LoginPage()));
                       },
-                      child: Text('cadastrar'),
+                      child: const Text('cadastrar'),
                     ),
                   )
                 ],

@@ -9,7 +9,6 @@ import 'package:untitled/models/carro_model.dart';
 import 'package:untitled/services/carros_service.dart';
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uuid/uuid.dart';
 
 import '../models/auth_error.dart';
 
@@ -28,24 +27,6 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
   TextEditingController _controllerAno = TextEditingController();
   TextEditingController _controllerModelo = TextEditingController();
   TextEditingController _controllerPlaca = TextEditingController();
-  List<String> listNames = [];
-
-  @override
-  void initState() {
-    lista();
-
-    db.collection('carros').snapshots().listen((query) {
-      listNames = [];
-
-      query.docs.forEach((doc) {
-        setState(() {
-          listNames.add(doc.get("name"));
-        });
-      });
-    });
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +40,8 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                   Container(
                       alignment: Alignment.center,
                       width: double.infinity,
-                      height: 140,
-                      decoration: BoxDecoration(
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      decoration: const BoxDecoration(
                         color: ThemeApp.cinza,
                       ),
                       child: Row(
@@ -73,7 +54,7 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                               width: 55,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 50,
                           ),
                           Expanded(
@@ -98,11 +79,13 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                                           builder: (BuildContext context) =>
                                               CarroPage()));
                                 },
-                                icon: Icon(FontAwesomeIcons.check)),
+                                icon: const Icon(FontAwesomeIcons.check)),
                           ),
                         ],
                       )),
-                  SizedBox(height: 50),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: Container(
@@ -111,79 +94,39 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(24.0),
-                            child: Container(
-                              child: SizedBox(
-                                child: Form(
-                                    child: Column(
-                                  children: [
-                                    TextFormField(
-                                      controller: _controllerNome,
-                                      decoration:
-                                          InputDecoration(labelText: 'Nome'),
-                                    ),
-                                    TextFormField(
-                                      controller: _controllerMarca,
-                                      decoration:
-                                          InputDecoration(labelText: 'Marca'),
-                                    ),
-                                    TextFormField(
-                                      controller: _controllerModelo,
-                                      decoration:
-                                          InputDecoration(labelText: 'Modelo'),
-                                    ),
-                                    TextFormField(
-                                      controller: _controllerAno,
-                                      decoration:
-                                          InputDecoration(labelText: 'Ano'),
-                                    ),
-                                    TextFormField(
-                                      controller: _controllerPlaca,
-                                      decoration: InputDecoration(
-                                          labelText: 'placa opcional'),
-                                    ),
-                                  ],
-                                )),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: Text(
-                                  style: GoogleFonts.comfortaa(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                  'Ativo',
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Switch(
-                                  value: isSwitched,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isSwitched = value;
-                                      print(isSwitched);
-                                    });
-                                  },
-                                  activeTrackColor: ThemeApp.black,
-                                  activeColor: ThemeApp.black,
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(24.0),
                             child: SizedBox(
                               child: Form(
                                   child: Column(
                                 children: [
                                   TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Observação'),
+                                    controller: _controllerPlaca,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Placa'),
                                   ),
+                                  TextFormField(
+                                    controller: _controllerMarca,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Marca'),
+                                  ),
+                                  TextFormField(
+                                    controller: _controllerModelo,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Modelo'),
+                                  ),
+                                  TextFormField(
+                                    controller: _controllerAno,
+                                    decoration:
+                                        const InputDecoration(labelText: 'Ano'),
+                                  ),
+                                  TextFormField(
+                                    controller: _controllerNome,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Nome opcional'),
+                                  ),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                        labelText: 'Observação'),
+                                  )
                                 ],
                               )),
                             ),
@@ -201,18 +144,6 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
     );
   }
 
-  void lista() async {
-    QuerySnapshot query = await db.collection('carros').get();
-
-    listNames = [];
-    query.docs.forEach((doc) {
-      String name = doc.get("nome");
-      setState(() {
-        listNames.add(name);
-      });
-    });
-  }
-
   void sendData() async {
     try {
       User user = FirebaseAuth.instance.currentUser!;
@@ -228,7 +159,7 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
       );
       if (value) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Usuario cadastrado com sucesso!"),
+          content: Text("Carro cadastrado com sucesso!"),
         ));
       }
     } on AuthError catch (e) {

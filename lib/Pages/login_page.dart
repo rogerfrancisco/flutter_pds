@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
+
 import 'package:untitled/Pages/carro_page.dart';
 import 'package:untitled/Pages/renomearsenha_page.dart';
 import 'package:untitled/models/auth_error.dart';
@@ -30,103 +29,113 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 120,
-              decoration: BoxDecoration(
-                color: ThemeApp.cinza,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.15,
+                // ignore: prefer_const_constructors
+                decoration: BoxDecoration(
+                  color: ThemeApp.cinza,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Image.asset(
+                        'images/logo.png',
+                        height: 37,
+                        width: 55,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 7,
+                      child: Text(
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w900,
+                        ),
+                        'Control Car',
+                      ),
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.05,
+            ),
+            SizedBox(
+              // ignore: sort_child_properties_last
+              child: Text(
+                style: GoogleFonts.comfortaa(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w900,
+                ),
+                'Login',
               ),
-              child: Row(
+              width: MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.height * 0.15,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
-                  Expanded(
-                    flex: 3,
-                    child: Image.asset(
-                      'images/logo.png',
-                      height: 37,
-                      width: 55,
+                  TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
                     ),
                   ),
-                  Expanded(
-                    flex: 7,
-                    child: Text(
-                      style: GoogleFonts.comfortaa(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w900,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Senha',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const RenomearSenhaPage()));
+                          },
+                          child: const Text('Esqueci a Senha'),
+                        ),
+                      )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
                       ),
-                      'Control Car',
+                      onPressed: signIn,
+                      child: const Text('Login'),
                     ),
                   )
                 ],
-              )),
-          SizedBox(height: 30),
-          SizedBox(
-            child: Text(
-              style: GoogleFonts.comfortaa(
-                fontSize: 36,
-                fontWeight: FontWeight.w900,
               ),
-              'Login',
             ),
-            width: 110,
-            height: 100,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      RenomearSenhaPage()));
-                        },
-                        child: Text('Esqueci a Senha'),
-                      ),
-                    )),
-                SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                    ),
-                    onPressed: signIn,
-                    child: Text('Login'),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -136,7 +145,8 @@ class _LoginPage extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
-      Navigator.push(context,
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => CarroPage()));
     } on FirebaseAuthException catch (e) {
       AuthError error = AuthError(e.code);

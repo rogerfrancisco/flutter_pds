@@ -6,6 +6,8 @@ import 'package:untitled/models/user_carro_model.dart';
 
 class CarrosService {
   late final FirebaseFirestore db;
+
+  static var carroModel;
   CarrosService() {
     db = FirebaseFirestore.instance;
   }
@@ -39,6 +41,19 @@ class CarrosService {
       if (doc.docs.length == 0) return null;
       return UserCarroModel.fromJson(
           doc.docs.first.data(), doc.docs.first.reference);
+    } on FirebaseException catch (e) {
+      throw AuthError(e.code);
+    }
+  }
+
+  Stream<UserCarroModel?> getStream(String uid) async* {
+    try {
+      var doc =
+          db.collection('carros').where('uid', isEqualTo: uid).snapshots();
+      if (doc.length == 0) yield null;
+      yield* doc.asyncMap((event) => event.docs
+          .map((e) => UserCarroModel.fromJson(e.data(), e.reference))
+          .toList()[0]);
     } on FirebaseException catch (e) {
       throw AuthError(e.code);
     }

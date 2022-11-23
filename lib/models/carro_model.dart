@@ -24,6 +24,8 @@ class CarroModel {
       placa: json['placa'],
     );
   }
+
+  String? get kmAtual => null;
   Map<String, dynamic> toJson() {
     return {
       'nome': nome,

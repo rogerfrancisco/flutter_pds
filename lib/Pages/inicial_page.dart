@@ -18,8 +18,8 @@ class _InicialPageState extends State<InicialPage> {
         Container(
             alignment: Alignment.center,
             width: double.infinity,
-            height: 130,
-            decoration: BoxDecoration(
+            height: MediaQuery.of(context).size.height * 0.15,
+            decoration: const BoxDecoration(
               color: ThemeApp.cinza,
             ),
             child: Row(
@@ -47,21 +47,23 @@ class _InicialPageState extends State<InicialPage> {
         SizedBox(
           child: Image.asset(
             'images/carro.png',
-            height: 340,
-            width: 300,
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: MediaQuery.of(context).size.height * 0.4,
           ),
         ),
-        SizedBox(height: 25),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.03,
+        ),
         Padding(
           padding: const EdgeInsets.all(24.0),
           child: Row(
             children: [
               SizedBox(
-                width: 147,
-                height: 52,
+                width: MediaQuery.of(context).size.width * 0.36,
+                height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: ThemeApp.black,
+                    backgroundColor: ThemeApp.black,
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -72,10 +74,12 @@ class _InicialPageState extends State<InicialPage> {
                   child: Text('Login'),
                 ),
               ),
-              const SizedBox(width: 50),
               SizedBox(
-                width: 147,
-                height: 52,
+                width: MediaQuery.of(context).size.width * 0.15,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.36,
+                height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ThemeApp.black,
@@ -85,7 +89,7 @@ class _InicialPageState extends State<InicialPage> {
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                CadastroLoginPage()));
+                                const CadastroLoginPage()));
                   },
                   child: const Text('Cadastrar'),
                 ),

@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:untitled/Pages/carro_page.dart';
+import 'package:untitled/Pages/carroview_page.dart';
 import 'package:untitled/Pages/lembreteview_page.dart';
+import 'package:untitled/Pages/principal_page.dart';
 import 'package:untitled/models/service_model.dart';
 import 'package:untitled/models/user_service_model.dart';
 import 'package:untitled/services/servicos_service.dart';
@@ -11,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 class LembretePage extends StatefulWidget {
   LembretePage({Key? key, required this.placa}) : super(key: key);
 
-  String placa;
+  final String placa;
 
   @override
   _LembretePage createState() => _LembretePage();
@@ -28,22 +32,22 @@ class _LembretePage extends State<LembretePage> {
         Container(
             alignment: Alignment.center,
             width: double.infinity,
-            height: 120,
-            decoration: BoxDecoration(
+            height: MediaQuery.of(context).size.height * 0.15,
+            decoration: const BoxDecoration(
               color: ThemeApp.cinza,
             ),
             child: Row(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Image.asset(
                     'images/logo.png',
-                    height: 37,
-                    width: 55,
+                    width: MediaQuery.of(context).size.width * 0.07,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
                 ),
                 SizedBox(
-                  width: 50,
+                  width: MediaQuery.of(context).size.width * 0.07,
                 ),
                 Expanded(
                   flex: 8,
@@ -55,12 +59,30 @@ class _LembretePage extends State<LembretePage> {
                     'Lembrete',
                   ),
                 ),
+                Expanded(
+                  flex: 3,
+                  child: IconButton(
+                      iconSize: 50,
+                      onPressed: () {
+                        Navigator.pop(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    PrincipalPage(
+                                      placa: widget.placa,
+                                    )));
+                      },
+                      icon: const Icon(
+                        FontAwesomeIcons.arrowLeft,
+                        color: ThemeApp.black,
+                      )),
+                ),
               ],
             )),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: FutureBuilder(
-              future: servicosService.getService(user!.uid, widget.placa),
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: StreamBuilder(
+              stream: servicosService.getAtivoStream(user!.uid, widget.placa),
               builder: (context, AsyncSnapshot<UserServiceModel?> snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -69,17 +91,18 @@ class _LembretePage extends State<LembretePage> {
                       ServiceModel doc = snapshot.data!.servicos[index];
                       return Container(
                         padding: EdgeInsets.all(10),
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 20),
                         color: ThemeApp.cinza,
                         child: ListTile(
-                          onLongPress: () {
+                          onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         LembreteViewPage(
                                           serviceModel: doc,
+                                          placa: widget.placa,
                                         )));
                           },
                           title: Column(
@@ -93,7 +116,7 @@ class _LembretePage extends State<LembretePage> {
                                     style: getStyle(),
                                   ),
                                   Text(
-                                    'km' + doc.trocaKm,
+                                    'km${doc.trocaKm}',
                                     style: getStyle(),
                                   )
                                 ],
@@ -105,7 +128,7 @@ class _LembretePage extends State<LembretePage> {
                               Row(
                                 children: [
                                   const Icon(FontAwesomeIcons.calendarDays),
-                                  Text('Data: ' + formatarData(doc.data),
+                                  Text('Data: ${formatarData(doc.data)}',
                                       style: getStyle()),
                                 ],
                               ),
@@ -116,11 +139,13 @@ class _LembretePage extends State<LembretePage> {
                     },
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               }),
         ),
-        SizedBox(height: 10),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.03,
+        ),
       ]),
     );
   }
@@ -133,11 +158,7 @@ class _LembretePage extends State<LembretePage> {
   }
 
   String formatarData(DateTime data) {
-    return data.day.toString() +
-        '/' +
-        data.month.toString() +
-        '/' +
-        data.year.toString();
+    return '${data.day}/${data.month}/${data.year}';
     ;
   }
 }

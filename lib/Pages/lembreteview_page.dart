@@ -1,13 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:untitled/Pages/lembrete_page.dart';
 import 'package:untitled/models/service_model.dart';
+import 'package:untitled/services/servicos_service.dart';
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../models/auth_error.dart';
+
 class LembreteViewPage extends StatelessWidget {
+  final String placa;
   final ServiceModel serviceModel;
-  LembreteViewPage({Key? key, required this.serviceModel}) : super(key: key);
+
+  final ServicosService servicosService = ServicosService();
+  LembreteViewPage({Key? key, required this.serviceModel, required this.placa})
+      : super(key: key);
 
   bool isSwitched = false;
 
@@ -52,7 +61,7 @@ class LembreteViewPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(FontAwesomeIcons.check)),
+                      icon: const Icon(FontAwesomeIcons.check)),
                 ),
               ],
             )),
@@ -141,7 +150,7 @@ class LembreteViewPage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
+                      height: MediaQuery.of(context).size.height * 0.01,
                     ),
                     Row(
                       children: [
@@ -160,10 +169,7 @@ class LembreteViewPage extends StatelessWidget {
                           child: Switch(
                             value: isSwitched,
                             onChanged: (value) {
-                              setState(() {
-                                isSwitched = value;
-                                print(isSwitched);
-                              });
+                              sendData(value, context);
                             },
                             activeTrackColor: ThemeApp.black,
                             activeColor: ThemeApp.black,
@@ -187,13 +193,25 @@ class LembreteViewPage extends StatelessWidget {
   }
 
   String formatarData(DateTime data) {
-    return data.day.toString() +
-        '/' +
-        data.month.toString() +
-        '/' +
-        data.year.toString();
-    ;
+    return '${data.day}/${data.month}/${data.year}';
   }
 
-  void setState(Null Function() param0) {}
+  void sendData(bool confirmado, BuildContext context) async {
+    try {
+      User user = FirebaseAuth.instance.currentUser!;
+      serviceModel.changecompleted(confirmado);
+      var value =
+          await servicosService.updateService(serviceModel, user.uid, placa);
+
+      if (value) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Serviço atualizado com sucesso"),
+        ));
+      }
+    } on AuthError catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+      ));
+    }
+  }
 }

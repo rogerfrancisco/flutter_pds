@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Pages/login_page.dart';
 import 'package:untitled/theme_app.dart';
@@ -11,6 +12,8 @@ class RenomearSenhaPage extends StatefulWidget {
 }
 
 class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
+  final emailController = TextEditingController();
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -18,8 +21,8 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
           Container(
               alignment: Alignment.center,
               width: double.infinity,
-              height: 120,
-              decoration: BoxDecoration(
+              height: MediaQuery.of(context).size.height * 0.15,
+              decoration: const BoxDecoration(
                 color: ThemeApp.cinza,
               ),
               child: Row(
@@ -44,31 +47,37 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
                   )
                 ],
               )),
-          SizedBox(height: 30),
           SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
+          SizedBox(
+            // ignore: sort_child_properties_last
             child: Text(
               style: GoogleFonts.comfortaa(
                 fontSize: 36,
                 fontWeight: FontWeight.w900,
               ),
-              'Login',
+              'Recuperar Senha',
             ),
-            width: 110,
-            height: 100,
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.height * 0.22,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 TextField(
+                  controller: emailController,
                   onChanged: (text) {},
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -76,12 +85,14 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
                       primary: Colors.black,
                     ),
                     onPressed: () {
+                      recuperarSenha();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => LoginPage()));
+                              builder: (BuildContext context) =>
+                                  const LoginPage()));
                     },
-                    child: Text('Redefinir Senha'),
+                    child: const Text('Redefinir Senha'),
                   ),
                 )
               ],
@@ -90,5 +101,10 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
         ],
       ),
     );
+  }
+
+  Future<void> recuperarSenha() async {
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: emailController.text);
   }
 }

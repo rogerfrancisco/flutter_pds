@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled/Pages/carro_page.dart';
+import 'package:untitled/Pages/inicial_page.dart';
 import 'package:untitled/Pages/login_page.dart';
-import 'package:untitled/Pages/principal_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: user != null ? CarroPage() : LoginPage(),
+        home: user != null ? LoginPage() : InicialPage(),
         debugShowCheckedModeBanner: false,
       );
 }

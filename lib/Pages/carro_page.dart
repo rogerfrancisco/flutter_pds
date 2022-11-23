@@ -7,7 +7,6 @@ import 'package:untitled/Pages/principal_page.dart';
 import 'package:untitled/services/carros_service.dart';
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../models/carro_model.dart';
 import '../models/user_carro_model.dart';
 
@@ -27,8 +26,8 @@ class _CarroPage extends State<CarroPage> {
         Container(
             alignment: Alignment.center,
             width: double.infinity,
-            height: 120,
-            decoration: BoxDecoration(
+            height: MediaQuery.of(context).size.height * 0.15,
+            decoration: const BoxDecoration(
               color: ThemeApp.cinza,
             ),
             child: Row(
@@ -42,7 +41,7 @@ class _CarroPage extends State<CarroPage> {
                   ),
                 ),
                 SizedBox(
-                  width: 50,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 Expanded(
                   flex: 5,
@@ -56,7 +55,9 @@ class _CarroPage extends State<CarroPage> {
                 ),
               ],
             )),
-        SizedBox(height: 20),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(14.0),
@@ -86,7 +87,9 @@ class _CarroPage extends State<CarroPage> {
                       width: 152,
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
                   SizedBox(
                     child: Text(
                       style: GoogleFonts.comfortaa(
@@ -99,34 +102,38 @@ class _CarroPage extends State<CarroPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.7,
                     height: MediaQuery.of(context).size.height * 0.4,
-                    child: FutureBuilder(
-                        future: carrosService.getCarro(user.uid),
+                    child: StreamBuilder(
+                        stream: carrosService.getStream(user.uid),
                         builder:
                             (context, AsyncSnapshot<UserCarroModel?> snapshot) {
                           if (snapshot.hasData) {
-                            return DropdownButtonFormField(
-                                icon: const Icon(
-                                  Icons.car_crash_outlined,
-                                  size: 40,
-                                ),
-                                items: List<DropdownMenuItem>.from(snapshot
-                                    .data!.carros
-                                    .map((x) => DropdownMenuItem(
-                                          child: Text(x.marca + x.modelo,
-                                              style: getStyle()),
-                                          value: x.placa,
-                                        ))),
-                                onChanged: (value) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              PrincipalPage(
-                                                placa: value,
-                                              )));
-                                });
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.55,
+                              child: DropdownButtonFormField(
+                                  icon: const Icon(
+                                    Icons.car_crash_outlined,
+                                    size: 40,
+                                  ),
+                                  items: List<DropdownMenuItem>.from(snapshot
+                                      .data!.carros
+                                      .map((x) => DropdownMenuItem(
+                                            value: x.placa,
+                                            child: Text(x.marca + x.modelo,
+                                                style: getStyle()),
+                                          ))),
+                                  onChanged: (value) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                PrincipalPage(
+                                                  placa: value,
+                                                )));
+                                  }),
+                            );
                           } else {
-                            return Center(child: CircularProgressIndicator());
+                            return const Center(
+                                child: CircularProgressIndicator());
                           }
                         }),
                   ),
@@ -143,8 +150,8 @@ class _CarroPage extends State<CarroPage> {
               MaterialPageRoute(
                   builder: (BuildContext context) => CadastroCarroPage()));
         },
-        child: const Icon(Icons.add_circle_outline_sharp),
         backgroundColor: ThemeApp.black,
+        child: const Icon(Icons.add_circle_outline_sharp),
       ),
     );
   }

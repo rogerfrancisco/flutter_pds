@@ -14,7 +14,7 @@ class CadastroManutencaoPage extends StatelessWidget {
             alignment: Alignment.center,
             width: double.infinity,
             height: 120,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: ThemeApp.cinza,
             ),
             child: Row(
@@ -42,11 +42,11 @@ class CadastroManutencaoPage extends StatelessWidget {
                   child: IconButton(
                       iconSize: 50,
                       onPressed: () {},
-                      icon: Icon(FontAwesomeIcons.check)),
+                      icon: const Icon(FontAwesomeIcons.check)),
                 ),
               ],
             )),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(14.0),
@@ -69,7 +69,7 @@ class CadastroManutencaoPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   SizedBox(
                     child: SizedBox(
                       child: Form(
@@ -77,7 +77,7 @@ class CadastroManutencaoPage extends StatelessWidget {
                         children: [
                           TextFormField(
                             decoration:
-                                InputDecoration(labelText: 'Manutenção'),
+                                const InputDecoration(labelText: 'Manutenção'),
                           ),
                         ],
                       )),

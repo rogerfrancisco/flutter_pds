@@ -11,7 +11,6 @@ import 'package:untitled/models/service_model.dart';
 import 'package:untitled/services/servicos_service.dart';
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uuid/uuid.dart';
 
 class ServicoPage extends StatefulWidget {
   String placa;
@@ -42,7 +41,7 @@ class _ServicoPage extends State<ServicoPage> {
     'Radiador',
     'Suspensão'
   ];
-  bool isSwitched = false;
+  bool isSwitched = true;
   FirebaseFirestore db = FirebaseFirestore.instance;
   DateTime data = DateTime.now();
   TextEditingController _dateInput = TextEditingController();
@@ -70,7 +69,8 @@ class _ServicoPage extends State<ServicoPage> {
                   Container(
                       alignment: Alignment.center,
                       width: double.infinity,
-                      height: 140,
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      // ignore: prefer_const_constructors
                       decoration: BoxDecoration(
                         color: ThemeApp.cinza,
                       ),
@@ -115,7 +115,9 @@ class _ServicoPage extends State<ServicoPage> {
                           ),
                         ],
                       )),
-                  const SizedBox(height: 50),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: Container(
@@ -145,8 +147,8 @@ class _ServicoPage extends State<ServicoPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.04,
                           ),
                           SizedBox(
                             child: Form(
@@ -155,8 +157,11 @@ class _ServicoPage extends State<ServicoPage> {
                                 Column(
                                   children: [
                                     SizedBox(
-                                      width: 110,
-                                      height: 33,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.30,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.07,
                                       child: TextFormField(
                                         controller: _trocaKm,
                                         decoration: const InputDecoration(
@@ -166,12 +171,15 @@ class _ServicoPage extends State<ServicoPage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  width: 100,
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
                                 ),
                                 SizedBox(
-                                  width: 130,
-                                  height: 33,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.36,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
                                   child: TextFormField(
                                     controller: _mediaKm,
                                     decoration: const InputDecoration(
@@ -182,16 +190,18 @@ class _ServicoPage extends State<ServicoPage> {
                               ],
                             )),
                           ),
-                          const SizedBox(
-                            height: 30,
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
                           ),
                           SizedBox(
                             child: Row(
                               children: [
                                 SizedBox(
                                   child: SizedBox(
-                                    width: 130,
-                                    height: 30,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.30,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
                                     child: TextField(
                                       controller: _dateInput,
                                       decoration: const InputDecoration(
@@ -220,12 +230,15 @@ class _ServicoPage extends State<ServicoPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 80,
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
                                 ),
                                 Container(
-                                  width: 130,
-                                  height: 33,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.36,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.05,
                                   child: TextField(
                                     controller: _timeInput,
                                     decoration: const InputDecoration(
@@ -253,8 +266,8 @@ class _ServicoPage extends State<ServicoPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.10,
                           ),
                           SizedBox(
                             child: Form(
@@ -308,11 +321,13 @@ class _ServicoPage extends State<ServicoPage> {
           observacao: _observacao.text,
           servico: dropValue,
           trocaKm: _trocaKm.text,
+          isCompleted: false,
         ),
         user.uid,
         widget.placa,
       );
       if (value) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Serviço cadastrado com sucesso!"),
         ));
