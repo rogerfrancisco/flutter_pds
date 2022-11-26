@@ -21,6 +21,7 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
   CarrosService carrosService = CarrosService();
   bool isSwitched = false;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  final formKey = GlobalKey<FormState>();
 
   TextEditingController _controllerNome = TextEditingController();
   TextEditingController _controllerMarca = TextEditingController();
@@ -55,22 +56,22 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                             ),
                           ),
                           const SizedBox(
-                            width: 50,
+                            width: 40,
                           ),
                           Expanded(
-                            flex: 5,
+                            flex: 6,
                             child: Text(
                               style: GoogleFonts.comfortaa(
                                 fontSize: 36,
                                 fontWeight: FontWeight.w900,
                               ),
-                              'Carros',
+                              'Veiculos',
                             ),
                           ),
                           Expanded(
                             flex: 3,
                             child: IconButton(
-                                iconSize: 70,
+                                iconSize: 60,
                                 onPressed: () {
                                   sendData();
                                   Navigator.push(
@@ -159,7 +160,7 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
       );
       if (value) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Carro cadastrado com sucesso!"),
+          content: Text("Veiculo cadastrado com sucesso!"),
         ));
       }
     } on AuthError catch (e) {

@@ -86,7 +86,9 @@ class _PrincipalPage extends State<PrincipalPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (BuildContext context) =>
-                                                ConfiguracaoPage()));
+                                                ConfiguracaoPage(
+                                                  placa: widget.placa,
+                                                )));
                                   },
                                   icon: const Icon(CupertinoIcons.gear_solid)),
                             ),
@@ -132,7 +134,27 @@ class _PrincipalPage extends State<PrincipalPage> {
                               IconButton(
                                   iconSize: 70,
                                   onPressed: () {
-                                    sendData();
+                                    if (_controllerKm.text == '') {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Erro'),
+                                              content: const Text(
+                                                  'Insira um valor válido'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Ok'),
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    } else {
+                                      sendData();
+                                    }
                                   },
                                   // ignore: prefer_const_constructors
                                   icon: Icon(CupertinoIcons
@@ -145,15 +167,21 @@ class _PrincipalPage extends State<PrincipalPage> {
                                         user!.uid,
                                         widget.placa);
                                     if (value) {
+                                      // ignore: use_build_context_synchronously
                                       ScaffoldMessenger.of(context)
+                                          // ignore: prefer_const_constructors
                                           .showSnackBar(SnackBar(
-                                        content: Text('Km zerada com sucesso!'),
+                                        content: const Text(
+                                            'Km zerada com sucesso!'),
                                         backgroundColor: ThemeApp.black,
                                       ));
                                     } else {
+                                      // ignore: use_build_context_synchronously
                                       ScaffoldMessenger.of(context)
+                                          // ignore: prefer_const_constructors
                                           .showSnackBar(SnackBar(
-                                        content: Text('Erro ao zerar Km!'),
+                                        content:
+                                            const Text('Erro ao zerar Km!'),
                                         backgroundColor: ThemeApp.black,
                                       ));
                                     }
@@ -169,7 +197,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
+                            height: MediaQuery.of(context).size.height * 0.04,
                             child: StreamBuilder(
                                 stream: kmService.getKmStream(
                                     user!.uid, widget.placa),
@@ -188,13 +216,13 @@ class _PrincipalPage extends State<PrincipalPage> {
                                       return Text(
                                         'KM Atual: ${snapshot.data!.km}',
                                         style: GoogleFonts.comfortaa(
-                                          fontSize: 40,
+                                          fontSize: 36,
                                           fontWeight: FontWeight.w900,
                                         ),
                                       );
                                     }
                                   } else {
-                                    return const Text('Aguardando...');
+                                    return const Text('Km não informada');
                                   }
                                 }),
                           ),
@@ -212,7 +240,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                         color: ThemeApp.red,
                       ),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.48,
                         child: StreamBuilder(
                             stream: servicosService.getAtivoStream(
                                 user!.uid, widget.placa),

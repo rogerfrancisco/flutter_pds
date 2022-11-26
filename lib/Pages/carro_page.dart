@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:untitled/Pages/cadastrocarro_page.dart';
 import 'package:untitled/Pages/principal_page.dart';
 import 'package:untitled/services/carros_service.dart';
+import 'package:untitled/services/notification_service.dart';
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/carro_model.dart';
@@ -18,6 +19,12 @@ class CarroPage extends StatefulWidget {
 class _CarroPage extends State<CarroPage> {
   CarrosService carrosService = CarrosService();
   User user = FirebaseAuth.instance.currentUser!;
+  late final NotificationService notificationService;
+  @override
+  initState() {
+    super.initState();
+    notificationService = NotificationService();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,7 @@ class _CarroPage extends State<CarroPage> {
                       fontSize: 36,
                       fontWeight: FontWeight.w900,
                     ),
-                    'Carros',
+                    'Veiculos',
                   ),
                 ),
               ],
@@ -96,7 +103,7 @@ class _CarroPage extends State<CarroPage> {
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
                       ),
-                      'Escolha seu Carro',
+                      'Escolha seu Veiculo',
                     ),
                   ),
                   SizedBox(

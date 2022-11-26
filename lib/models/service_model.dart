@@ -35,6 +35,8 @@ class ServiceModel {
       isCompleted: json['isCompleted'],
     );
   }
+
+  get id => null;
   Map<String, dynamic> toJson() {
     return {
       'mecanico': mecanico,

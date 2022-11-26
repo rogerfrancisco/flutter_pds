@@ -8,7 +8,10 @@ import 'package:untitled/Pages/carro_page.dart';
 import 'package:untitled/Pages/carroview_page.dart';
 
 import 'package:untitled/Pages/inicial_page.dart';
+import 'package:untitled/Pages/principal_page.dart';
+import 'package:untitled/Pages/relatorio_page.dart';
 import 'package:untitled/models/auth_error.dart';
+import 'package:untitled/services/servicos_service.dart';
 
 import 'package:untitled/theme_app.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,10 +19,22 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/user_carro_model.dart';
 import '../services/carros_service.dart';
 
-class ConfiguracaoPage extends StatelessWidget {
+class ConfiguracaoPage extends StatefulWidget {
+  ConfiguracaoPage({Key? key, required this.placa}) : super(key: key);
+
+  final String placa;
+  _ConfiguracaoPage createState() => _ConfiguracaoPage();
+}
+
+class _ConfiguracaoPage extends State<ConfiguracaoPage> {
+  CarrosService carrosService = CarrosService();
+
+  User user = FirebaseAuth.instance.currentUser!;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   static var carroModel;
+  ServicosService servicosService = ServicosService();
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +72,16 @@ class ConfiguracaoPage extends StatelessWidget {
                   flex: 2,
                   child: IconButton(
                       iconSize: 50,
-                      onPressed: () {},
-                      icon: const Icon(FontAwesomeIcons.check)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PrincipalPage(placa: widget.placa),
+                          ),
+                        );
+                      },
+                      icon: const Icon(FontAwesomeIcons.arrowLeft)),
                 ),
               ],
             )),
@@ -102,7 +125,25 @@ class ConfiguracaoPage extends StatelessWidget {
                                 builder: (BuildContext context) =>
                                     CarroPage()));
                       },
-                      child: const Text('Trocar de carro'),
+                      child: const Text('Trocar de Veiculo'),
+                    ),
+                  )),
+                  Align(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => CarroView(
+                                      placa: widget.placa,
+                                    )));
+                      },
+                      child: const Text('Deletar Veiculo'),
                     ),
                   )),
                   Align(
@@ -117,10 +158,11 @@ class ConfiguracaoPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    CarroView()));
+                                    RelatorioPage(
+                                      placa: widget.placa,
+                                    )));
                       },
-                      
-                      child: const Text('Vizualizar Carro'),
+                      child: const Text('Visualizar Serviços Realizados'),
                     ),
                   )),
                   Align(

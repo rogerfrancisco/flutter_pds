@@ -20,6 +20,7 @@ class ServicoPage extends StatefulWidget {
 }
 
 class _ServicoPage extends State<ServicoPage> {
+  final formKey = GlobalKey<FormState>();
   ServicosService servicosService = ServicosService();
   String dropValue = '';
   final dropOpcoes = [
@@ -39,7 +40,8 @@ class _ServicoPage extends State<ServicoPage> {
     'Pastilhas Freios',
     'Pneus',
     'Radiador',
-    'Suspensão'
+    'Suspensão',
+    'Outros'
   ];
   bool isSwitched = true;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -102,14 +104,10 @@ class _ServicoPage extends State<ServicoPage> {
                             child: IconButton(
                                 iconSize: 50,
                                 onPressed: () {
-                                  sendData();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              PrincipalPage(
-                                                placa: widget.placa,
-                                              )));
+                                  if (formKey.currentState!.validate()) {
+                                    sendData();
+                                  }
+                                  Navigator.pop(context);
                                 },
                                 icon: const Icon(FontAwesomeIcons.check)),
                           ),
@@ -152,43 +150,55 @@ class _ServicoPage extends State<ServicoPage> {
                           ),
                           SizedBox(
                             child: Form(
+                                key: formKey,
                                 child: Row(
-                              children: [
-                                Column(
                                   children: [
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.30,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.07,
+                                          child: TextFormField(
+                                            validator: (String? value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Obrigatório';
+                                              }
+                                            },
+                                            controller: _trocaKm,
+                                            decoration: const InputDecoration(
+                                                hintText: 'Troca KM',
+                                                icon:
+                                                    Icon(Icons.speed_outlined)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.30,
+                                          0.22,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.36,
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.07,
                                       child: TextFormField(
-                                        controller: _trocaKm,
+                                        controller: _mediaKm,
                                         decoration: const InputDecoration(
-                                            hintText: 'Troca KM',
+                                            hintText: 'Media KM',
                                             icon: Icon(Icons.speed_outlined)),
                                       ),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.22,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.36,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.07,
-                                  child: TextFormField(
-                                    controller: _mediaKm,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Media KM',
-                                        icon: Icon(Icons.speed_outlined)),
-                                  ),
-                                ),
-                              ],
-                            )),
+                                )),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.03,
@@ -202,7 +212,12 @@ class _ServicoPage extends State<ServicoPage> {
                                         0.30,
                                     height: MediaQuery.of(context).size.height *
                                         0.05,
-                                    child: TextField(
+                                    child: TextFormField(
+                                      validator: (String? value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Campo Obrigatório';
+                                        }
+                                      },
                                       controller: _dateInput,
                                       decoration: const InputDecoration(
                                           icon: Icon(Icons.calendar_today),

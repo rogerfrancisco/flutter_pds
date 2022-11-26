@@ -64,8 +64,8 @@ class ServicosService {
         }
         return false;
       });
-
-      return false;
+      userServiceModel.reference.update(userServiceModel.toJson());
+      return true;
     } on AuthError catch (e) {
       throw e.message;
     } on FirebaseException catch (e) {
@@ -131,10 +131,33 @@ class ServicosService {
 
       // if (doc.length == 0) yield null;
       yield* doc.asyncMap((event) => event.docs.map((service) {
-            print(service.data()['servicos']);
             List lista = service.data()['servicos'];
             lista.removeWhere((e) {
               return e['isCompleted'];
+            });
+            Map<String, dynamic> servico = service.data();
+            servico['servicos'] = lista;
+            return UserServiceModel.fromJson(servico, service.reference);
+          }).toList()[0]);
+    } on FirebaseException catch (e) {
+      throw AuthError(e.code);
+    }
+  }
+
+  Stream<UserServiceModel?> getAtivoRelatorios(
+      String uid, String placa) async* {
+    try {
+      final doc = db
+          .collection('servicos')
+          .where('uid', isEqualTo: uid)
+          .where('placa', isEqualTo: placa)
+          .snapshots();
+
+      // if (doc.length == 0) yield null;
+      yield* doc.asyncMap((event) => event.docs.map((service) {
+            List lista = service.data()['servicos'];
+            lista.removeWhere((e) {
+              return !e['isCompleted'];
             });
             Map<String, dynamic> servico = service.data();
             servico['servicos'] = lista;

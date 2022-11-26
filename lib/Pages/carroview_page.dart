@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:untitled/Pages/carro_page.dart';
 import 'package:untitled/Pages/configuracao_page.dart';
 import 'package:untitled/Pages/lembrete_page.dart';
 import 'package:untitled/Pages/servico_page.dart';
@@ -21,6 +23,9 @@ import '../models/user_service_model.dart';
 import 'lembreteview_page.dart';
 
 class CarroView extends StatefulWidget {
+  CarroView({Key? key, required this.placa}) : super(key: key);
+
+  final String placa;
   @override
   _CarroView createState() => _CarroView();
 }
@@ -79,14 +84,28 @@ class _CarroView extends State<CarroView> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
-                                                  ConfiguracaoPage()));
+                                                  ConfiguracaoPage(
+                                                      placa: widget.placa)));
                                     },
                                     icon:
-                                        const Icon(CupertinoIcons.gear_solid)),
+                                        const Icon(FontAwesomeIcons.arrowLeft)),
                               ),
                             ],
                           )),
                     ],
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Text(
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                        ),
+                        'Selecione o veiculo \npara excluir',
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
@@ -104,25 +123,13 @@ class _CarroView extends State<CarroView> {
                                   CarroModel carro =
                                       snapshot.data!.carros[index];
                                   return Container(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     margin: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 30),
+                                        horizontal: 1, vertical: 25),
                                     color: ThemeApp.cinza,
                                     child: ListTile(
                                       onTap: () async {
-                                        bool status = await carrosService
-                                            .deleteCarro(carro, user.uid);
-                                        if (status) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'Carro deletado com sucesso'),
-                                              backgroundColor: Colors.green,
-                                            ),
-                                          );
-                                          setState(() {});
-                                        }
+                                        confirmeDelete(context, carro);
                                       },
                                       title: Column(
                                         children: [
@@ -170,6 +177,48 @@ class _CarroView extends State<CarroView> {
                         }),
                   ),
                 ]))));
+  }
+
+  confirmeDelete(BuildContext context, CarroModel carro) {
+    Widget cancelaButton = TextButton(
+      child: Text("Não"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continuaButton = TextButton(
+      child: Text("Sim"),
+      onPressed: () async {
+        bool status = await carrosService.deleteCarro(carro, user.uid);
+
+        if (status) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Veiculo deletado com sucesso'),
+              backgroundColor: Colors.black,
+            ),
+          );
+          setState(() {});
+        }
+        Navigator.of(context).pop();
+      },
+    );
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Excluir Veiculo"),
+      content: Text("Deseja Excluir seu Veiculo?"),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   TextStyle getStyle() {
