@@ -9,7 +9,7 @@ class NotificationService {
 
   NotificationService() {
     inicialize();
-    pushNotification('AVISO', 'Não esqueça de informar a quilometragem');
+    pushNotification('Meu Ajuda pra eu te ajudar', 'Hora de informar o Km');
   }
   inicialize() async {
     tz.initializeTimeZones();

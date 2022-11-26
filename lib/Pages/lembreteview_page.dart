@@ -81,7 +81,11 @@ class _LembreteViewPageState extends State<LembreteViewPage> {
                           if (store.isSwitched == true) {
                             confirmeServico(context);
                           } else {
-                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PrincipalPage(placa: widget.placa)));
                           }
                         },
                         icon: const Icon(FontAwesomeIcons.check)),

@@ -25,7 +25,7 @@ class _ServicoPage extends State<ServicoPage> {
   String dropValue = '';
   final dropOpcoes = [
     'Arcondicionado',
-    'Balanceamento e geometria',
+    'Balanceamento',
     'Bateria',
     'Bomba de combustivel',
     'Cinto Segurança',
@@ -33,6 +33,7 @@ class _ServicoPage extends State<ServicoPage> {
     'Escapamento',
     'Filtro de ar motor',
     'Fluido de Freio',
+    'Geometria',
     'Injeção Eletronica',
     'Lampadas',
     'Lataria',

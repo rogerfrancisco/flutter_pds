@@ -64,7 +64,7 @@ class _LembretePage extends State<LembretePage> {
                   child: IconButton(
                       iconSize: 50,
                       onPressed: () {
-                        Navigator.pop(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
