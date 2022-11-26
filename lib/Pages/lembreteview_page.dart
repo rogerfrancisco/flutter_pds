@@ -242,7 +242,7 @@ class _LembreteViewPageState extends State<LembreteViewPage> {
         });
     //configura o AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Confirrmação de serviço"),
+      title: Text("Confirmação de serviço"),
       content: Text("Deseja confirmar seu serviço?"),
       actions: [
         cancelaButton,
