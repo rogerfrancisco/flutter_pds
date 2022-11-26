@@ -198,9 +198,11 @@ class _CarroView extends State<CarroView> {
               backgroundColor: Colors.black,
             ),
           );
-          setState(() {});
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => CarroPage()));
         }
-        Navigator.of(context).pop();
       },
     );
     //configura o AlertDialog

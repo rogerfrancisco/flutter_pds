@@ -106,8 +106,8 @@ class _ServicoPage extends State<ServicoPage> {
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     sendData();
+                                    Navigator.pop(context);
                                   }
-                                  Navigator.pop(context);
                                 },
                                 icon: const Icon(FontAwesomeIcons.check)),
                           ),
@@ -151,6 +151,7 @@ class _ServicoPage extends State<ServicoPage> {
                           SizedBox(
                             child: Form(
                                 key: formKey,
+                                autovalidateMode: AutovalidateMode.always,
                                 child: Row(
                                   children: [
                                     Column(
@@ -191,6 +192,11 @@ class _ServicoPage extends State<ServicoPage> {
                                           MediaQuery.of(context).size.height *
                                               0.07,
                                       child: TextFormField(
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Obrigatório';
+                                          }
+                                        },
                                         controller: _mediaKm,
                                         decoration: const InputDecoration(
                                             hintText: 'Media KM',

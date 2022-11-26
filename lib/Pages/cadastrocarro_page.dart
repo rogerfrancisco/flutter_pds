@@ -73,7 +73,9 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                             child: IconButton(
                                 iconSize: 60,
                                 onPressed: () {
-                                  sendData();
+                                  if (formKey.currentState!.validate()) {
+                                    sendData();
+                                  }
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -97,39 +99,65 @@ class _CadastroCarroPage extends State<CadastroCarroPage> {
                             padding: const EdgeInsets.all(24.0),
                             child: SizedBox(
                               child: Form(
+                                  key: formKey,
+                                  autovalidateMode: AutovalidateMode.always,
                                   child: Column(
-                                children: [
-                                  TextFormField(
-                                    controller: _controllerPlaca,
-                                    decoration: const InputDecoration(
-                                        labelText: 'Placa'),
-                                  ),
-                                  TextFormField(
-                                    controller: _controllerMarca,
-                                    decoration: const InputDecoration(
-                                        labelText: 'Marca'),
-                                  ),
-                                  TextFormField(
-                                    controller: _controllerModelo,
-                                    decoration: const InputDecoration(
-                                        labelText: 'Modelo'),
-                                  ),
-                                  TextFormField(
-                                    controller: _controllerAno,
-                                    decoration:
-                                        const InputDecoration(labelText: 'Ano'),
-                                  ),
-                                  TextFormField(
-                                    controller: _controllerNome,
-                                    decoration: const InputDecoration(
-                                        labelText: 'Nome opcional'),
-                                  ),
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                        labelText: 'Observação'),
-                                  )
-                                ],
-                              )),
+                                    children: [
+                                      TextFormField(
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Obrigatório';
+                                          }
+                                          //return null;
+                                        },
+                                        controller: _controllerPlaca,
+                                        decoration: const InputDecoration(
+                                            labelText: 'Placa'),
+                                      ),
+                                      TextFormField(
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Obrigatório';
+                                          }
+                                          //return null;
+                                        },
+                                        controller: _controllerMarca,
+                                        decoration: const InputDecoration(
+                                            labelText: 'Marca'),
+                                      ),
+                                      TextFormField(
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Obrigatório';
+                                          }
+                                          //return null;
+                                        },
+                                        controller: _controllerModelo,
+                                        decoration: const InputDecoration(
+                                            labelText: 'Modelo'),
+                                      ),
+                                      TextFormField(
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Obrigatório';
+                                          }
+                                          //return null;
+                                        },
+                                        controller: _controllerAno,
+                                        decoration: const InputDecoration(
+                                            labelText: 'Ano'),
+                                      ),
+                                      TextFormField(
+                                        controller: _controllerNome,
+                                        decoration: const InputDecoration(
+                                            labelText: 'Nome opcional'),
+                                      ),
+                                      TextFormField(
+                                        decoration: const InputDecoration(
+                                            labelText: 'Observação'),
+                                      )
+                                    ],
+                                  )),
                             ),
                           ),
                         ],

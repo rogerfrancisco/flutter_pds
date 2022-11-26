@@ -38,7 +38,7 @@ class NotificationService {
       0,
       title,
       body,
-      RepeatInterval.everyMinute,
+      RepeatInterval.hourly,
       platformChannelSpecifics,
     );
   }

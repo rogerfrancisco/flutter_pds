@@ -136,7 +136,7 @@ class _ConfiguracaoPage extends State<ConfiguracaoPage> {
                         backgroundColor: Colors.black,
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => CarroView(

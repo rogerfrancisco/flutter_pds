@@ -241,68 +241,71 @@ class _PrincipalPage extends State<PrincipalPage> {
                       ),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.48,
-                        child: StreamBuilder(
-                            stream: servicosService.getAtivoStream(
-                                user!.uid, widget.placa),
-                            builder: (context,
-                                AsyncSnapshot<UserServiceModel?> snapshot) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text('ALERTA', style: getStyle1()),
-                                  snapshot.data != null &&
-                                          snapshot.data!.servicos.length > 0
-                                      ? ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount:
-                                              snapshot.data!.servicos.length,
-                                          itemBuilder: (context, index) {
-                                            ServiceModel doc =
-                                                snapshot.data!.servicos[index];
-                                            return ListTile(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            LembretePage(
-                                                              placa:
-                                                                  widget.placa,
-                                                            )));
-                                              },
-                                              title: Column(
-                                                children: [
-                                                  Text(
-                                                    '${doc.servico} ${formatarData(doc.data)}',
-                                                    style: getStyle(),
-                                                  ),
-                                                  Text(
-                                                    doc.data.isBefore(
-                                                            DateTime.now())
-                                                        ? 'Vencido'
-                                                        : 'Vence em ${doc.data.difference(DateTime.now()).inDays} dias',
-                                                    style: getStyle(),
-                                                  ),
-                                                  Text(
-                                                    int.parse(doc.trocaKm) >=
-                                                            store.km
-                                                        ? 'Faltam ${int.parse(doc.trocaKm) - store.km} KM para o próximo serviço'
-                                                        : 'Serviço atrasado',
-                                                    style: getStyle2(),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        )
-                                      : Text(
-                                          'Nenhum serviço atrasado',
-                                          style: getStyle(),
-                                        ),
-                                ],
-                              );
-                            }),
+                        child: SingleChildScrollView(
+                          child: StreamBuilder(
+                              stream: servicosService.getAtivoStream(
+                                  user!.uid, widget.placa),
+                              builder: (context,
+                                  AsyncSnapshot<UserServiceModel?> snapshot) {
+                                return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text('ALERTA', style: getStyle1()),
+                                    snapshot.data != null &&
+                                            snapshot.data!.servicos.length > 0
+                                        ? ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount:
+                                                snapshot.data!.servicos.length,
+                                            itemBuilder: (context, index) {
+                                              ServiceModel doc = snapshot
+                                                  .data!.servicos[index];
+                                              return ListTile(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              LembretePage(
+                                                                placa: widget
+                                                                    .placa,
+                                                              )));
+                                                },
+                                                title: Column(
+                                                  children: [
+                                                    Text(
+                                                      '${doc.servico} ${formatarData(doc.data)}',
+                                                      style: getStyle(),
+                                                    ),
+                                                    Text(
+                                                      doc.data.isBefore(
+                                                              DateTime.now())
+                                                          ? 'Vencido'
+                                                          : 'Vence em ${doc.data.difference(DateTime.now()).inDays} dias',
+                                                      style: getStyle(),
+                                                    ),
+                                                    Text(
+                                                      int.parse(doc.trocaKm) >=
+                                                              store.km
+                                                          ? 'Faltam ${int.parse(doc.trocaKm) - store.km} KM para o próximo serviço'
+                                                          : 'Serviço atrasado',
+                                                      style: getStyle2(),
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : Text(
+                                            'Nenhum serviço atrasado',
+                                            style: getStyle(),
+                                          ),
+                                  ],
+                                );
+                              }),
+                        ),
                       ),
                     ),
                   ),
