@@ -51,7 +51,7 @@ class _ConfiguracaoPage extends State<ConfiguracaoPage> {
             child: Row(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Image.asset(
                     'images/logo.png',
                     height: 37,
@@ -62,10 +62,10 @@ class _ConfiguracaoPage extends State<ConfiguracaoPage> {
                   flex: 6,
                   child: Text(
                     style: GoogleFonts.comfortaa(
-                      fontSize: 32,
+                      fontSize: 30,
                       fontWeight: FontWeight.w900,
                     ),
-                    'Configuração',
+                    'Control Car',
                   ),
                 ),
                 Expanded(
@@ -112,38 +112,46 @@ class _ConfiguracaoPage extends State<ConfiguracaoPage> {
                     width: MediaQuery.of(context).size.width * 0.09,
                   ),
                   Align(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                      child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.62,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      CarroPage()));
+                        },
+                        child: const Text('Trocar de Veiculo'),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    CarroPage()));
-                      },
-                      child: const Text('Trocar de Veiculo'),
                     ),
                   )),
                   Align(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                      child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.62,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => CarroView(
+                                        placa: widget.placa,
+                                      )));
+                        },
+                        child: const Text('Deletar Veiculo'),
                       ),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => CarroView(
-                                      placa: widget.placa,
-                                    )));
-                      },
-                      child: const Text('Deletar Veiculo'),
                     ),
                   )),
                   Align(
@@ -166,16 +174,20 @@ class _ConfiguracaoPage extends State<ConfiguracaoPage> {
                     ),
                   )),
                   Align(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                      child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.62,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                        ),
+                        onPressed: () {
+                          signOut(context);
+                        },
+                        child: const Text('sair'),
                       ),
-                      onPressed: () {
-                        signOut(context);
-                      },
-                      child: const Text('sair'),
                     ),
                   )),
                 ],

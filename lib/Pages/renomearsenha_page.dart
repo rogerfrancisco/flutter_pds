@@ -82,7 +82,7 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
+                      backgroundColor: Colors.black,
                     ),
                     onPressed: () {
                       recuperarSenha();

@@ -139,8 +139,16 @@ class _CarroPage extends State<CarroPage> {
                                   }),
                             );
                           } else {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return Center(
+                              child: Text(
+                                style: GoogleFonts.comfortaa(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                'Veiculo não Cadastrado\n'
+                                'Cadastre no botão abaixo',
+                              ),
+                            );
                           }
                         }),
                   ),

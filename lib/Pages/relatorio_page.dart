@@ -57,7 +57,7 @@ class _RelatorioPage extends State<RelatorioPage> {
                       fontSize: 36,
                       fontWeight: FontWeight.w900,
                     ),
-                    'Lembrete',
+                    'Historico',
                   ),
                 ),
                 Expanded(

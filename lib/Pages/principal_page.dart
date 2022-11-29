@@ -68,7 +68,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                               ),
                             ),
                             Expanded(
-                              flex: 5,
+                              flex: 6,
                               child: Text(
                                 style: GoogleFonts.comfortaa(
                                   fontSize: 32,
@@ -197,7 +197,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.04,
+                            height: MediaQuery.of(context).size.height * 0.05,
                             child: StreamBuilder(
                                 stream: kmService.getKmStream(
                                     user!.uid, widget.placa),

@@ -161,7 +161,7 @@ class _ServicoPage extends State<ServicoPage> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.30,
+                                              0.32,
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
@@ -188,7 +188,7 @@ class _ServicoPage extends State<ServicoPage> {
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.36,
+                                          0.37,
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.07,
@@ -216,9 +216,9 @@ class _ServicoPage extends State<ServicoPage> {
                                 SizedBox(
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.30,
+                                        0.32,
                                     height: MediaQuery.of(context).size.height *
-                                        0.05,
+                                        0.06,
                                     child: TextFormField(
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
@@ -258,9 +258,9 @@ class _ServicoPage extends State<ServicoPage> {
                                 ),
                                 Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.36,
+                                      MediaQuery.of(context).size.width * 0.37,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.05,
+                                      MediaQuery.of(context).size.height * 0.06,
                                   child: TextField(
                                     controller: _timeInput,
                                     decoration: const InputDecoration(
