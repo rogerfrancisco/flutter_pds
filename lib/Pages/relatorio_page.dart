@@ -132,7 +132,15 @@ class _RelatorioPage extends State<RelatorioPage> {
                     },
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: Text(
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      'Nenhum historico no momento',
+                    ),
+                  );
                 }
               }),
         ),

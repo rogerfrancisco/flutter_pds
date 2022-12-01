@@ -126,6 +126,12 @@ class _ServicoPage extends State<ServicoPage> {
                           SizedBox(
                             child: SizedBox(
                               child: DropdownButtonFormField(
+                                autovalidateMode: AutovalidateMode.always,
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return ' Obrigatório';
+                                  }
+                                },
                                 icon: const Icon(Icons.build),
                                 hint: const Text('Selecione o Serviço'),
                                 decoration: InputDecoration(
@@ -193,11 +199,6 @@ class _ServicoPage extends State<ServicoPage> {
                                           MediaQuery.of(context).size.height *
                                               0.07,
                                       child: TextFormField(
-                                        validator: (String? value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Obrigatório';
-                                          }
-                                        },
                                         controller: _mediaKm,
                                         decoration: const InputDecoration(
                                             hintText: 'Media KM',
@@ -220,9 +221,10 @@ class _ServicoPage extends State<ServicoPage> {
                                     height: MediaQuery.of(context).size.height *
                                         0.06,
                                     child: TextFormField(
+                                      autovalidateMode: AutovalidateMode.always,
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Campo Obrigatório';
+                                          return ' Obrigatório';
                                         }
                                       },
                                       controller: _dateInput,

@@ -139,7 +139,15 @@ class _LembretePage extends State<LembretePage> {
                     },
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: Text(
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      'Nenhum serviço cadastrado',
+                    ),
+                  );
                 }
               }),
         ),

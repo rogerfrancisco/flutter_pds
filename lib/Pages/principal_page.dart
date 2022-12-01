@@ -37,6 +37,7 @@ class _PrincipalPage extends State<PrincipalPage> {
   User? user = FirebaseAuth.instance.currentUser;
 
   final TextEditingController _controllerKm = TextEditingController();
+  final now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Container(
                           alignment: Alignment.center,
                           height: MediaQuery.of(context).size.height * 0.10,
@@ -161,30 +162,8 @@ class _PrincipalPage extends State<PrincipalPage> {
                                       .checkmark_alt_circle_fill)),
                               IconButton(
                                   iconSize: 70,
-                                  onPressed: () async {
-                                    bool value = await kmService.updateKm(
-                                        KmModel(km: 0),
-                                        user!.uid,
-                                        widget.placa);
-                                    if (value) {
-                                      // ignore: use_build_context_synchronously
-                                      ScaffoldMessenger.of(context)
-                                          // ignore: prefer_const_constructors
-                                          .showSnackBar(SnackBar(
-                                        content: const Text(
-                                            'Km zerada com sucesso!'),
-                                        backgroundColor: ThemeApp.black,
-                                      ));
-                                    } else {
-                                      // ignore: use_build_context_synchronously
-                                      ScaffoldMessenger.of(context)
-                                          // ignore: prefer_const_constructors
-                                          .showSnackBar(SnackBar(
-                                        content:
-                                            const Text('Erro ao zerar Km!'),
-                                        backgroundColor: ThemeApp.black,
-                                      ));
-                                    }
+                                  onPressed: () {
+                                    showAlertkm(context);
                                   },
                                   // ignore: prefer_const_constructors
                                   icon: Icon(CupertinoIcons
@@ -253,7 +232,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                                   children: [
                                     Text('ALERTA', style: getStyle1()),
                                     snapshot.data != null &&
-                                            snapshot.data!.servicos.length > 0
+                                            snapshot.data!.servicos.isNotEmpty
                                         ? ListView.builder(
                                             shrinkWrap: true,
                                             itemCount:
@@ -276,21 +255,21 @@ class _PrincipalPage extends State<PrincipalPage> {
                                                 title: Column(
                                                   children: [
                                                     Text(
-                                                      '${doc.servico} ${formatarData(doc.data)}',
+                                                      'Serviço:${doc.servico}',
                                                       style: getStyle(),
                                                     ),
                                                     Text(
                                                       doc.data.isBefore(
                                                               DateTime.now())
-                                                          ? 'Vencido'
-                                                          : 'Vence em ${doc.data.difference(DateTime.now()).inDays} dias',
-                                                      style: getStyle(),
+                                                          ? 'Data atrasada,troca urgente!'
+                                                          : 'Vence em ${doc.data.difference(DateTime.now()).inDays + 1} dia',
+                                                      style: getStyle2(),
                                                     ),
                                                     Text(
                                                       int.parse(doc.trocaKm) >=
                                                               store.km
-                                                          ? 'Faltam ${int.parse(doc.trocaKm) - store.km} KM para o próximo serviço'
-                                                          : 'Serviço atrasado',
+                                                          ? 'Faltam ${int.parse(doc.trocaKm) - store.km} KM para a troca'
+                                                          : 'Km ultrapassado,troca urgente!',
                                                       style: getStyle2(),
                                                     )
                                                   ],
@@ -299,7 +278,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                                             },
                                           )
                                         : Text(
-                                            'Nenhum serviço atrasado',
+                                            'Nenhum serviço informado',
                                             style: getStyle(),
                                           ),
                                   ],
@@ -359,46 +338,44 @@ class _PrincipalPage extends State<PrincipalPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.15,
+                      width: MediaQuery.of(context).size.width * 0.17,
                     ),
                     SizedBox(
                       child: Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: Container(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.36,
-                            height: MediaQuery.of(context).size.height * 0.10,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ThemeApp.cinza,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            ServicoPage(
-                                              placa: widget.placa,
-                                            )));
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.build,
-                                    size: 50,
+                        padding: const EdgeInsets.all(12.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.36,
+                          height: MediaQuery.of(context).size.height * 0.10,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ThemeApp.cinza,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          ServicoPage(
+                                            placa: widget.placa,
+                                          )));
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.build,
+                                  size: 50,
+                                  color: ThemeApp.black,
+                                ),
+                                Text(
+                                  style: GoogleFonts.comfortaa(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
                                     color: ThemeApp.black,
                                   ),
-                                  Text(
-                                    style: GoogleFonts.comfortaa(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w900,
-                                      color: ThemeApp.black,
-                                    ),
-                                    'Serviço',
-                                  ),
-                                ],
-                              ),
+                                  'Serviço',
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -438,9 +415,37 @@ class _PrincipalPage extends State<PrincipalPage> {
     }
   }
 
+  showAlertkm(BuildContext context) {
+    // configura o button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () async {
+        bool value =
+            await kmService.updateKm(KmModel(km: 0), user!.uid, widget.placa);
+
+        Navigator.of(context).pop();
+      },
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Km zerada com sucesso!"),
+      content: Text("Insira o Km novamente"),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
+  }
+
   TextStyle getStyle() {
     return GoogleFonts.comfortaa(
-      fontSize: MediaQuery.of(context).size.width * 0.05,
+      fontSize: MediaQuery.of(context).size.width * 0.06,
       fontWeight: FontWeight.w900,
     );
   }
@@ -454,7 +459,7 @@ class _PrincipalPage extends State<PrincipalPage> {
 
   TextStyle getStyle2() {
     return GoogleFonts.comfortaa(
-      fontSize: MediaQuery.of(context).size.width * 0.04,
+      fontSize: MediaQuery.of(context).size.width * 0.05,
       fontWeight: FontWeight.w900,
     );
   }

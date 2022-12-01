@@ -104,18 +104,22 @@ class _LoginPage extends State<LoginPage> {
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                          ),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const RenomearSenhaPage()));
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RenomearSenhaPage(),
+                              ),
+                            );
                           },
-                          child: const Text('Esqueci a Senha'),
+                          child: const Text(
+                            "Esqueceu a Senha?",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                       )),
                   SizedBox(

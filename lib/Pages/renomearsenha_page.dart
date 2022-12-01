@@ -85,12 +85,7 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
                       backgroundColor: Colors.black,
                     ),
                     onPressed: () {
-                      recuperarSenha();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const LoginPage()));
+                      showAlertSenha(context);
                     },
                     child: const Text('Redefinir Senha'),
                   ),
@@ -100,6 +95,35 @@ class _RenomearSenhaPageState extends State<RenomearSenhaPage> {
           ),
         ],
       ),
+    );
+  }
+
+  showAlertSenha(BuildContext context) {
+    // configura o button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        recuperarSenha();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const LoginPage()));
+      },
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Email enviado com sucesso!"),
+      content: Text("Verifique sua caixa postal ou spam"),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
     );
   }
 

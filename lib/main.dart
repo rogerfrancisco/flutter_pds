@@ -16,7 +16,8 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   User? user = FirebaseAuth.instance.currentUser;
-  static final String title = 'Firebase Auth';
+
+  static const String title = 'Firebase Auth';
 
   // This widget is the root of your application.
   @override
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        home: user != null ? LoginPage() : InicialPage(),
+        home: user != null ? CarroPage() : InicialPage(),
         debugShowCheckedModeBanner: false,
       );
 }
