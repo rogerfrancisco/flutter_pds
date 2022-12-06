@@ -112,7 +112,7 @@ class _LembretePage extends State<LembretePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    doc.servico,
+                                    'Serviço:${doc.servico}',
                                     style: getStyle(),
                                   ),
                                   Text(

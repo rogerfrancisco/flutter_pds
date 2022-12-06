@@ -1,6 +1,6 @@
 {
-    "name": "flutter_pds",
-    "short_name": "flutter_pds",
+    "name": "ControlCar",
+    "short_name": "ControlCar",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

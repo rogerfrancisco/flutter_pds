@@ -262,7 +262,7 @@ class _PrincipalPage extends State<PrincipalPage> {
                                                       doc.data.isBefore(
                                                               DateTime.now())
                                                           ? 'Data atrasada,troca urgente!'
-                                                          : 'Vence em ${doc.data.difference(DateTime.now()).inDays + 1} dia',
+                                                          : 'Vence em ${doc.data.difference(DateTime.now()).inDays + 1} dias',
                                                       style: getStyle2(),
                                                     ),
                                                     Text(

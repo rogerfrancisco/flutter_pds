@@ -105,11 +105,11 @@ class _RelatorioPage extends State<RelatorioPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    doc.servico,
+                                    'Serviço:${doc.servico}',
                                     style: getStyle(),
                                   ),
                                   Text(
-                                    'km${doc.trocaKm}',
+                                    'km:${doc.trocaKm}',
                                     style: getStyle(),
                                   )
                                 ],
@@ -121,7 +121,8 @@ class _RelatorioPage extends State<RelatorioPage> {
                               Row(
                                 children: [
                                   const Icon(FontAwesomeIcons.calendarDays),
-                                  Text('Data: ${formatarData(doc.data)}',
+                                  Text(
+                                      'Data: ${formatarData(doc.data)}   Mecanico: ${doc.mecanico}',
                                       style: getStyle()),
                                 ],
                               ),
@@ -153,7 +154,7 @@ class _RelatorioPage extends State<RelatorioPage> {
 
   TextStyle getStyle() {
     return GoogleFonts.comfortaa(
-      fontSize: MediaQuery.of(context).size.width * 0.05,
+      fontSize: MediaQuery.of(context).size.width * 0.04,
       fontWeight: FontWeight.normal,
     );
   }
