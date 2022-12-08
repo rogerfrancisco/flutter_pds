@@ -317,10 +317,11 @@ class _LembreteViewPageState extends State<LembreteViewPage> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Serviço atualizado com sucesso"),
         ));
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => LembretePage(
+                builder: (BuildContext context) => PrincipalPage(
                       placa: widget.placa,
                     )));
       }
